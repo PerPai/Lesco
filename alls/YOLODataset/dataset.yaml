@@ -1,0 +1,4 @@
+train: C:\lesco-recognizer\alls\YOLODataset/images/train/
+val: C:\lesco-recognizer\alls\YOLODataset/images/val/
+nc: 4
+names: ["U", "O", "I", "E"]

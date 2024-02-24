@@ -1,0 +1,4 @@
+train: C:\lesco-recognizer\data\Falta\YOLODataset/images/train/
+val: C:\lesco-recognizer\data\Falta\YOLODataset/images/val/
+nc: 5
+names: ["E", "O", "I", "U", "A"]
