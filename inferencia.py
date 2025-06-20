@@ -8,9 +8,9 @@ from ultralytics import YOLO
 # Clase Seguimiento manos.
 import SeguimientoManos as sm
 
-hablar = input("¿Deseas que el sistema hable? (1: Sí, 0: No): ")
+hablar = input("¿Deseas que el sistema hable? ( 0: No, 1: Sí): ")
 # Lectura camara
-cap= cv2.VideoCapture(2)
+cap= cv2.VideoCapture(0)
 # Resolucion
 cap.set(3,1280)
 cap.set(4,720)
@@ -35,7 +35,6 @@ while True:
 
     # Si hay mano
     if mano >=1:    
-
         # Extraer informacion del cuadro
         xmin,ymin,xmax,ymax = bbox
 
@@ -47,13 +46,16 @@ while True:
 
         recorte = frame[ymin:ymax,xmin:xmax]
         
+        # Inicializar anotaciones
+        anotaciones = None
+
         # Verificar si la imagen está vacía
         if recorte.size != 0:
             # Redimensionar la imagen
             recorte=cv2.resize(recorte,(640,640), interpolation=cv2.INTER_CUBIC)
        
             # Extraer resultados
-            resultados = model.predict(recorte, conf=0.9)
+            resultados = model.predict(recorte, conf=0.85)
             
             # Obtener las anotaciones
             anotaciones = resultados[0].plot()
@@ -76,8 +78,10 @@ while True:
                         ultima_letra = letra_detectada
         else:
             print("La imagen recortada está vacía")     
-            
-        cv2.imshow("Recorte", anotaciones)
+
+        # Solo mostrar la imagen si anotaciones no es None
+        if anotaciones is not None:
+            cv2.imshow("Recorte", anotaciones)
 
     # Mostrar FPS
     cv2.imshow("Lenguaje de vocales", frame)
